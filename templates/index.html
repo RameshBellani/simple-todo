@@ -1,0 +1,50 @@
+{% extends "bootstrap/base.html" %}
+{% block title %} Todo {% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <h2 class="lead text-center"><span><i class="bi bi-check2-circle"></i></span>Tasks</h2>
+                <ul class="list-group">
+                    {% if not todos %}
+                        <li class="list-group-item list-group-item-warning"><span class="glyphicon glyphicon-exclamation-sign"></span> No Tasks to Display</li>
+                    {% else %}
+                        {% for todo in todos %}
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" class="checkbox">
+                                </span>
+                                <li class="list-group-item list-group-item-default">
+                                    <div class="input-group">
+                                        <span class="todo-text">{{ todo['task'] }}</span>
+                                        <span class="input-group-btn">
+                                            <a href="{{ url_for('edit', index=loop.index0) }}" class="edit btn btn-info btn-sm"><span class="glyphicon glyphicon-pencil"></span></a>
+                                            <a href="{{ url_for('remove', index=loop.index0) }}" class="remove btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove"></span></a>
+                                        </span>
+                                    </div>
+                                </li>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <form action=" {{ url_for('add')  }} " method="post">
+                    <div class="input-group">
+                        <input type="text" name="todo" class="form-control" placeholder="Add new task..." required>
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add Task</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
